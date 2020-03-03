@@ -21,14 +21,21 @@ int main(int argc, char** argv) {
     int number_of_letters[10000] = {0};
     int number_of_vogals[10000] = {0};
     
+    
+    FILE* pf = NULL;
+    pf = fopen("texto.txt", "w");
+    fprintf(pf, "%s", "a-a");
+    fclose(pf);
+    
+    
     FILE *file;
-    file = fopen("text.txt", "r");
+    file = fopen("texto.txt", "r");
     
     if (file) {
         int word_end = 0;
         while ((character = getc(file)) != EOF) {
             /* Identifica que uma palavra acabou*/
-            if ( character == 0x20 || character == 0x9 || character == 0xA || character == 0x2d || character == 0x22 || character == 0xE2809C || character ==  0xe2809D || character == 0x5b ||character == 0x5d || character == 0x28 || character == 0x29 || character == 0x2e || character == 0x2c || character == 0x3a || character == 0x3b || character == 0x3f || character == 0x21 || character == 0xE28093 || character == 0xE280A6) {
+            if ( character == 0x20 || character == 0x9 || character == 0xA || character == 0x5f || character == 0x22 || character == 0xE2809C || character ==  0xe2809D || character == 0x5b ||character == 0x5d || character == 0x28 || character == 0x29 || character == 0x2e || character == 0x2c || character == 0x3a || character == 0x3b || character == 0x3f || character == 0x21 || character == 0xE28093 || character == 0xE280A6) {
                 /* evita  incrementar no caso de varios espaços ou \n*/
                 if (word_end != 0) {
                     number_of_letters[word_end]++;
@@ -37,7 +44,7 @@ int main(int argc, char** argv) {
                     vogals = 0;
                 }
             } else {
-                if (character != 0xC3) {
+                if (character != 0x2d || character != 0x27 || character != 0xc3) {
                     word_end++;
                     /* Identifica que é um 'a' e conta as vogais*/
                     if ( character == 0xA1 || character == 0xA0 || character == 0xA2 || character == 0xA3 || character == 0x81 || character == 0x80 || character == 0x82 || character == 0x83 || character == 0x41 || character == 0x61) {
@@ -52,7 +59,7 @@ int main(int argc, char** argv) {
                         vogals++;
                     }
                     /* Identifica que é um 'o' e conta as vogais*/
-                    if (character == 0xB3 || character == 0xB2 || character == 0xB4 || character == 0xB5 || character == 0x93 || character <= 0x92 || character == 0x94 || character == 0x95 || character == 0x6F || character == 0x4F) {
+                    if (character == 0xB3 || character == 0xB2 || character == 0xB4 || character == 0xB5 || character == 0x93 || character == 0x92 || character == 0x94 || character == 0x95 || character == 0x6F || character == 0x4F) {
                         vogals++;
                     }
                     /* Identifica que é um 'u' e conta as vogais*/
@@ -60,6 +67,7 @@ int main(int argc, char** argv) {
                         vogals++;
                     }
                 }
+                
             }
         }
         if (word_end != 0) {
