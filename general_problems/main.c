@@ -18,43 +18,73 @@
 
 int main(int argc, char** argv) {
     /*var declaration*/
+    
     char byte;
-    bool is_multi_byte = false;
+    bool isMultiByte = false;
+    int vogals, wordSize, n, maxSize = 0;
+    int *numberOfLetters,*numberOfVogals,i;
     
     /*opens the file*/
     FILE *file;
     file = fopen("text.txt", "r");
     
+    /*checks the worst case scenario*/
+    if (file) {
+        while ((byte = getc(file)) != EOF ) {
+            if (byte ==  caracter que acaba a frase) {
+                if(n >= maxSize) {
+                    maxSize = n;
+                }
+                n = 0;
+            } else {
+                n++;
+            }
+        }
+    }
+    
+    /*save n bytes*/
+    numberOfLetters = (int*)calloc(maxSize, sizeof(int));
+    numberOfVogals = (int*)calloc(maxSize, sizeof(int));
+
+    
+    
+    
     if (file) {
         while ((byte = getc(file)) != EOF ) {
             /* every array with 2 bytes always start with either c2 or c3 */
             
-            if (is_multi_byte) { /*its inside a multi-byte character*/
-                
-                /*verificar se é um caracter que termina a frase*/
-                if (byte == asd ){
-                    
-                }
+            if (isMultiByte) { /*its inside a multi-byte character*/
                 
                 /*tratar informação*/
+                wordSize++;
+                if ( verificar se  é um a com acento ){
+                    vogals ++;
+                }
                 
-                is_multi_byte = false;
+                
+                isMultiByte = false;
             }
             
             if ( byte == 0xc2 || byte == 0xc3){
-                is_multi_byte = true;
+                isMultiByte = true;
             } else {
                 
                 /*verificar se é um caracter que termina a frase*/
-                if (byte == asd ){
-                    
+                if (encontrou caracter que acaba a palavra) {
+                    numberOfLetters[wordSize] ++;
+                    numberOfVogals[wordSize] ++;
+                    wordSize = 0;
+                    vogals = 0;
+                }  else {
+                    /* tratar informação*/
+                    wordSize ++;
+                    /*verifica se o byte é um a ou A*/
+                    if (byte == 0x61 || byte == 0x41){
+                        vogals ++;
+                    }
                 }
-                
-                /* tratar informação*/
-                
             }
         }
-        
     }
     
     fclose(file);
