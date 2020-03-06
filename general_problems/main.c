@@ -44,7 +44,7 @@ int main(int argc, char** argv) {
     
     /*save n bytes*/
     numberOfLetters = (int*)calloc(maxSize, sizeof(int));
-    numberOfVogals = (int*)calloc(maxSize, sizeof(int));
+    numberOfVogals = (int*)calloc(maxSize*maxSize, sizeof(int));
 
     
     
