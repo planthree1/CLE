@@ -1,1 +1,1 @@
-contar o numero de vogais em cada ficheiro de texto
+a á +
