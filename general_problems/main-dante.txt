@@ -1,0 +1,131 @@
+/* 
+ * File:   main.c
+ * Author: TiagoRodrigues
+ *
+ * Reunião Tiago e Dante em 2020, 15h
+ */
+
+#include <stdio.h>
+#include <stdbool.h>
+#include <stdlib.h>
+
+/**
+ * Return true if the char/byte is a symbol that represents a word or phrase ending.
+ * @param byte
+ * @return 
+ */
+bool isEndOfWord(char byte) {
+    if (byte == 0x20 || byte == 0x9 || byte == 0xA || byte == 0x5f || byte == 0x22 || byte == 0xE2809C || byte == 0xe2809D || byte == 0x5b || byte == 0x5d || byte == 0x28 || byte == 0x29 || byte == 0x2e || byte == 0x2c || byte == 0x3a || byte == 0x3b || byte == 0x3f || byte == 0x21 || byte == 0xE28093 || byte == 0xE280A6) {
+        return true;
+    }
+    return false;
+}
+
+/**
+ * This function return true is the char/byte is a vowel.
+ * @param byte
+ * @return 
+ */
+bool isVowel(char byte) {
+    if (byte == 0x61 || byte == 0x41 || byte == 0x65 || byte == 0x45 || byte == 0x69 || byte == 0x49 byte == 0x6f || byte == 0x4f || byte == 0x75 || byte == 0x55) {
+        return true;
+    }
+    return false;
+}
+
+/**
+ * Return true is the byte represents the first byte of a multi-byte character
+ * @param byte
+ * @return 
+ */
+bool isMultiByteChar(char byte) {
+    if (byte == 0xc2 || byte == 0xc3) {
+        return true;
+    }
+    return false;
+}
+
+/**
+ * This program reads in succession several text files text#.txt and prints a
+ * listing of the occurring frequency of word lengths and the number of vowels
+ * in each word for each of the supplied texts.
+ * @param argc
+ * @param argv
+ * @return 
+ */
+int main(int argc, char** argv) {
+    /*var declaration*/
+
+    char byte;
+    bool isMultiByte = false;
+    int vogals, wordSize, n, maxSize = 0;
+    int *numberOfLetters, *numberOfVogals, i;
+
+    /*opens the file*/
+    FILE *file;
+    file = fopen("text.txt", "r");
+
+    /*checks the worst case scenario*/
+    if (file) {
+        while ((byte = getc(file)) != EOF) {
+            if (byte == caracter que acaba a frase) {
+                if (n >= maxSize) {
+                    maxSize = n;
+                }
+                n = 0;
+            } else {
+                n++;
+            }
+        }
+    }
+
+    /*save n bytes*/
+    numberOfLetters = (int*) calloc(maxSize, sizeof (int));
+    numberOfVogals = (int*) calloc(maxSize, sizeof (int));
+
+    if (file) {
+        while ((byte = getc(file)) != EOF) {
+            /* every array with 2 bytes always start with either c2 or c3 */
+
+            if (isMultiByte) { /*its inside a multi-byte character*/
+
+                /*tratar informação*/
+                wordSize++;
+                if (verificar se é um a com acento) {
+                    vogals++;
+                }
+
+
+                isMultiByte = false;
+            }
+
+            if (isMultiByteChar) {
+                isMultiByte = true;
+            } else {
+
+                // Verfy if is a ending phrase character
+                if (isEndOfWord) {
+                    numberOfLetters[wordSize]++;
+                    numberOfVogals[wordSize]++;
+                    wordSize = 0;
+                    vogals = 0;
+                } else {
+
+                    // Increment a word size
+                    wordSize++;
+
+                    // Verify and increment if the char/byte is a vowel
+                    if (isVowel(byte)) {
+                        vogals++;
+                    } else {
+
+                    }
+                }
+            }
+        }
+    }
+
+    fclose(file);
+
+    return (EXIT_SUCCESS);
+}
