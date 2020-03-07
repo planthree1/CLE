@@ -27,7 +27,7 @@ bool isEndOfWord(char byte) {
  * @return 
  */
 bool isVowel(char byte) {
-    if (byte == 0x61 || byte == 0x41 || byte == 0x65 || byte == 0x45 || byte == 0x69 || byte == 0x49 byte == 0x6f || byte == 0x4f || byte == 0x75 || byte == 0x55) {
+    if (byte == 0x61 || byte == 0x41 || byte == 0x65 || byte == 0x45 || byte == 0x69 || byte == 0x49 || byte == 0x6f || byte == 0x4f || byte == 0x75 || byte == 0x55) {
         return true;
     }
     return false;
@@ -40,6 +40,84 @@ bool isVowel(char byte) {
  */
 bool isMultiByteChar(char byte) {
     if (byte == 0xc2 || byte == 0xc3) {
+        return true;
+    }
+    return false;
+}
+
+/**
+ * Return true if is "A" character family
+ * @param byte
+ * @return 
+ */
+bool isACharFamily(char byte) {
+    // Respectively á, à, â, ã, Á, À, Â, Ã
+    if (byte == 0xa1 || byte == 0xa0 || byte == 0xa2 || byte == 0xa3 || byte == 0x81 || byte == 0x80 || byte == 0x82 || byte == 0x83) {
+        return true;
+    }
+    return false;
+}
+
+/**
+ * Return true if is "A" character family
+ * @param byte
+ * @return 
+ */
+bool isECharFamily(char byte) {
+    // Respectively é, è, ê, É, È, Ê
+    if (byte == 0xa9 || byte == 0xa8 || byte == 0xaa || byte == 0x89 || byte == 0x88 || byte == 0x8a) {
+        return true;
+    }
+    return false;
+}
+
+/**
+ * Return true if is "A" character family
+ * @param byte
+ * @return 
+ */
+bool isICharFamily(char byte) {
+    // Respectively í, ì, Í, Ì
+    if (byte == 0xad || byte == 0xac || byte == 0x8d || byte == 0x8c) {
+        return true;
+    }
+    return false;
+}
+
+/**
+ * Return true if is "A" character family
+ * @param byte
+ * @return 
+ */
+bool isOCharFamily(char byte) {
+    // Respectively ó, ò, ô, õ, Ó, Ò, Ô, Õ
+    if (byte == 0xb9 || byte == 0xb2 || byte == 0xb4 || byte == 0xb5 || byte == 0x93 || byte == 0x92 || byte == 0x94 || byte == 0x95) {
+        return true;
+    }
+    return false;
+}
+
+/**
+ * Return true if is "A" character family
+ * @param byte
+ * @return 
+ */
+bool isUCharFamily(char byte) {
+    // Respectively ú, ù, Ú, Ù
+    if (byte == 0xba || byte == 0xb9 || byte == 0x9a || byte == 0x99) {
+        return true;
+    }
+    return false;
+}
+
+/**
+ * Return true if is "C" character family
+ * @param byte
+ * @return 
+ */
+bool isCCharFamily(char byte) {
+    // Respectively ç, Ç
+    if (byte == 0xa7 || byte == 0x87) {
         return true;
     }
     return false;
@@ -89,13 +167,12 @@ int main(int argc, char** argv) {
 
             if (isMultiByte) { /*its inside a multi-byte character*/
 
-                /*tratar informação*/
+                // Verify if are vowel family
                 wordSize++;
-                if (verificar se é um a com acento) {
+                if (isACharFamily(byte) || isECharFamily(byte) || isICharFamily(byte) || isOCharFamily(byte) || isUCharFamily(byte)) {
                     vogals++;
                 }
-
-
+                
                 isMultiByte = false;
             }
 
