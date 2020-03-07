@@ -46,9 +46,6 @@ int main(int argc, char** argv) {
     numberOfLetters = (int*)calloc(maxSize, sizeof(int));
     numberOfVogals = (int*)calloc(maxSize*maxSize, sizeof(int));
 
-    
-    
-    
     if (file) {
         while ((byte = getc(file)) != EOF ) {
             /* every array with 2 bytes always start with either c2 or c3 */
@@ -72,7 +69,7 @@ int main(int argc, char** argv) {
                 /*verificar se é um caracter que termina a frase*/
                 if (encontrou caracter que acaba a palavra) {
                     numberOfLetters[wordSize] ++;
-                    numberOfVogals[wordSize] ++;
+                    numberOfVogals[(wordSize*5)+vogals] ++;
                     wordSize = 0;
                     vogals = 0;
                 }  else {
