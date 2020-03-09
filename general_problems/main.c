@@ -178,7 +178,7 @@ int main(int argc, char** argv) {
                 }
                 isMultiByte = false;
             }
-            
+                        
             if (isMultiByteChar(byte)){
                 isMultiByte = true;
             } else {
