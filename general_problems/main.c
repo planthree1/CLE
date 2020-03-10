@@ -21,7 +21,7 @@
  * @return 
  */
 bool isEndOfWord(char byte) {
-    if (byte == 0x20 || byte == 0x9 || byte == 0xA || byte == 0x5f || byte == 0x22 || byte == 0xE2809C || byte == 0xe2809D || byte == 0x5b || byte == 0x5d || byte == 0x28 || byte == 0x29 || byte == 0x2e || byte == 0x2c || byte == 0x3a || byte == 0x3b || byte == 0x3f || byte == 0x21 || byte == 0xE28093 || byte == 0xE280A6) {
+    if (byte == (char) 0x20 || byte == (char) 0x2d || byte == (char) 0x9 || byte == (char) 0xA || byte == (char) 0x22 || byte == (char) 0xE2809C || byte == (char) 0xe2809D || byte == (char) 0x5b || byte == (char) 0x5d || byte == (char) 0x28 || byte == (char) 0x29 || byte == (char) 0x2e || byte == (char) 0x2c || byte == (char) 0x3a || byte == (char) 0x3b || byte == (char) 0x3f || byte == (char) 0x21 || byte == (char) 0xE28093 || byte == (char) 0xE280A6) {
         return true;
     }
     return false;
@@ -45,7 +45,7 @@ bool isVowel(char byte) {
  * @return 
  */
 bool isMultiByteChar(char byte) {
-    if (byte == 0xC2 || byte == 0xC3) {
+    if (byte == (char) 0xc2 | byte == (char) 0xc3 | byte == (char) 0xe2) {
         return true;
     }
     return false;
@@ -58,7 +58,7 @@ bool isMultiByteChar(char byte) {
  */
 bool isACharFamily(char byte) {
     // Respectively á, à, â, ã, Á, À, Â, Ã
-    if (byte == 0xa1 || byte == 0xa0 || byte == 0xa2 || byte == 0xa3 || byte == 0x81 || byte == 0x80 || byte == 0x82 || byte == 0x83) {
+    if (byte == (char) 0xa1 || byte == (char) 0xa0 || byte == (char) 0xa2 || byte == (char) 0xa3 || byte == (char) 0x81 || byte == (char) 0x80 || byte == (char) 0x82 || byte == (char) 0x83) {
         return true;
     }
     return false;
@@ -139,7 +139,7 @@ int main(int argc, char** argv) {
     
     /*opens the file*/
     FILE *file;
-    file = fopen("text.txt", "r");
+    file = fopen("text2.txt", "r");
     /*checks the worst case scenario*/
     int n = 0;
     if (file) {
@@ -158,61 +158,67 @@ int main(int argc, char** argv) {
         }
     }
     fclose(file);
-    
+    maxSize = maxSize + 1;
     /*save n bytes*/
     numberOfLetters = (int*)calloc(maxSize, sizeof(int));
     numberOfVogals = (int*)calloc(maxSize*maxSize, sizeof(int));
 
-    file = fopen("text.txt", "r");
+    file = fopen("text2.txt", "r");
     
     if (file) {
         while ((byte = getc(file)) != EOF ) {
             /* every array with 2 bytes always start with either c2 or c3 */
             
             if (isMultiByte) { 
-                /*its inside a multi-byte character*/
-                /*tratar informação*/
-                wordSize++;
-                if (isACharFamily(byte) || isECharFamily(byte) || isICharFamily(byte) || isOCharFamily(byte) || isUCharFamily(byte)) {
-                    vogals++;
-                }
-                isMultiByte = false;
-            }
-                        
-            if (isMultiByteChar(byte)){
-                isMultiByte = true;
-            } else {
-                
-                /*verificar se é um caracter que termina a frase*/
-                if (isEndOfWord(byte)) {
-                    if (wordSize != 0) {
-                        numberOfLetters[wordSize] ++;
-                        numberOfVogals[(wordSize*maxSize)+vogals] ++;
-                        wordSize = 0;
-                        vogals = 0;
-                    }
-                    
-                }  else {
-                    /* tratar informação*/
-                    wordSize ++;
-                    /*verifica se o byte é um a ou A*/
-                    if (isVowel(byte)) {
+                if (byte != (char) 0x80 || byte != (char) 0x92){
+                    wordSize++;
+                    if (isACharFamily(byte) || isECharFamily(byte) || isICharFamily(byte) || isOCharFamily(byte) || isUCharFamily(byte)) {
                         vogals++;
                     }
+                    isMultiByte = false;
+                
+                }
+                /*its inside a multi-byte character*/
+                /*tratar informação*/
+                
+                
+            } else {
+                if (isMultiByteChar(byte)){
+                    isMultiByte = true;
+                } else {
+                    /*verificar se é um caracter que termina a frase*/
+                    if (isEndOfWord(byte)) {
+                        if (wordSize != 0) {
+                            numberOfLetters[wordSize] ++;
+                            numberOfVogals[(wordSize*maxSize)+vogals] ++;
+                            wordSize = 0;
+                            vogals = 0;
+                        }
+                    }  else {
+                        /* tratar informação*/
+                        /*não contar se for - ou '*/
+                        if (byte != 0x27){
+                            wordSize ++;
+                            /*verifica se o byte é um a ou A*/
+                            if (isVowel(byte)) {
+                                vogals++;
+                            }
+                        }
+
+                    }
                 }
             }
         }
-        numberOfLetters[wordSize] ++;
-        numberOfVogals[(wordSize*maxSize)+vogals] ++;
-        wordSize = 0;
-        vogals = 0;
-        
-        /*
+        if (wordSize != 0) {
+            numberOfLetters[wordSize] ++;
+            numberOfVogals[(wordSize*maxSize)+vogals] ++;
+            wordSize = 0;
+            vogals = 0;
+        }
         int i;
         for (i=0; i<maxSize ;i++){
-            printf("number of leters %d, of %d \n",numberOfLetters[i], i+1);
+            printf("number of leters %d, of %d \n",numberOfLetters[i], i);
         }
-        */
         
     }
     
